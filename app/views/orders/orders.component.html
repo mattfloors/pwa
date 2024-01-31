@@ -1,0 +1,34 @@
+<ng-container *ngIf="(CanUseQRCode$ | async)">
+  <div class="hc-display-flex hc-flex-column hc-flex-align-center">
+    <h2 class="mat-h2" style="margin: 1rem 0 0 0">
+      {{'MESSAGES.QR_CODE_PAGE' | translate}}
+    </h2>
+    <button type="button" class="toolbar-btn" mat-icon-button (click)="onQRCode()">
+      <mat-icon class="mine">qr_code</mat-icon>
+    </button>
+    <h2 class="mat-h2" style="margin: 1.5rem 0 0rem 0">
+      {{'MESSAGES.OR_MESSAGE' | translate}}
+    </h2>
+  </div>
+</ng-container>
+
+<mat-list role="navigation">
+  <ng-container *ngFor="let area of (Areas$ | async)">
+    <mat-list-item 
+      [routerLink]="area.code"
+      role="listitem" 
+      class="hc-cursor-pointer"
+      [disabled]="!area.activable">
+      <h3 matLine> {{area.description | titlecase}} </h3>
+      <!--<p matLine>
+        se non c'è open time per oggi da il giorno successivo
+        <span> {{area.openingTime}} </span>
+      </p>-->
+      <span class="hc-line-spacer"></span>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+  <mat-divider></mat-divider>
+  </ng-container>
+</mat-list>
+
+

@@ -1,0 +1,11 @@
+<mat-list>
+  <ng-container *ngFor="let unit of (Units$ | async); index as i" >
+    <mat-list-item [routerLink]="unit.code" class="hc-cursor-pointer"> 
+      <span class="hc-mr-1" matListAvatar [style.backgroundColor]="Colors[i]">{{unit.description | uppercase | slice:0:2}}</span>
+      <span [matBadgeHidden]="unit.NewMessages == 0" [matBadge]="unit.NewMessages" matBadgeOverlap="false"> {{unit.description | titlecase}}</span> 
+      <span class="hc-line-spacer"></span>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </ng-container>
+</mat-list>

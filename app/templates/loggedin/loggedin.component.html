@@ -1,0 +1,62 @@
+
+<mat-toolbar color="primary">
+  <button (click)="toggleDrawer()" mat-icon-button aria-label="Example icon-button with menu icon">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span>{{ToolbarTitle$ | async}}</span>
+  <div id="page-actions-container" style="margin-left: auto;">
+    <!-- content will be placed dynamically via Cdk Portal -->
+  </div>
+  <a
+    *ngIf="HasFunctionMessage"
+    mat-icon-button
+    [routerLink]="['/', 'app', 'messages']">
+    <mat-icon
+      [matBadgeHidden]="(MessagesCount$ | async) === 0"
+      [matBadge]="MessagesCount$ | async"
+      matBadgeColor="accent"
+      matBadgePosition="after"
+      matBadgeOverlap="false">
+      message
+    </mat-icon>
+  </a>
+</mat-toolbar>
+
+<mat-drawer-container class="app-content">
+  <mat-drawer #drawer class="app-sidenav" mode="over">
+    <div>
+      <figure class="is-responsive is-centered">
+        <img [src]="ImageSrc$ | async">
+      </figure>
+      <form [formGroup]="Form">
+        <app-language-change *ngIf="(Languages$ | async) as Languages" [formGroup]="Form" [Data]="Languages"></app-language-change>
+        <app-theme-change [formGroup]="Form" [Data]="Themes"></app-theme-change>
+      </form>
+      <mat-divider></mat-divider>
+      <p class="mat-caption hc-my-2">
+        Powered by <br>
+        <img
+          src="../assets/f86914c7-0693-483d-b47c-d073b54cd872.png" 
+          width="120px" 
+          height="auto">
+        <br>
+        Version 1.0.0
+      </p>
+    </div>
+  </mat-drawer>
+  <section class="app-wrapper">
+    <router-outlet></router-outlet>
+  </section>
+</mat-drawer-container>
+
+<app-tab-navigation *ngIf="(Navigation$ | async) as Navigation">
+  <a app-tab-navigation-item matRipple *ngFor="let s of Navigation | slice : 0 : 4" [routerLink]="['/', 'app', s.path]" routerLinkActive="mat-primary">
+    <mat-icon class="material-icons-outlined">
+      {{s?.icon}}
+    </mat-icon>
+    {{s?.name}}
+  </a>
+  <button (click)="openBottomSheet()" *ngIf="Navigation.length > 4" mat-icon-button aria-label="Example icon button with a vertical three dot icon">
+    <mat-icon>more_vert</mat-icon>
+  </button>
+</app-tab-navigation>

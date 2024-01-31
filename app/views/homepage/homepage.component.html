@@ -1,0 +1,22 @@
+<!-- <div style="
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: calc(100vh - 120px);
+  flex-direction: column;
+  ">
+</div> -->
+
+<div style="padding-bottom: 8px;" fxLayout="row" fxLayout.xs="column" fxFlexFill fxLayoutAlign="center none" fxLayoutGap="16px">
+  <ng-container *ngIf="(Reservation$ | async) as Reservation">
+    <mat-card fxFlex="">
+      <h2 class="mat-subheading-2 mt-2">
+        {{'WELCOME' | translate }} {{Reservation?.guestName}} {{Reservation?.guestSurname}},
+      </h2>
+      <p class="mat-body-2">
+        {{(Greetings$ | async)?.description}}
+      </p>
+    </mat-card>
+    <app-reservation fxFlex="" [Data]="Reservation"></app-reservation>
+  </ng-container>
+</div>

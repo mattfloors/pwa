@@ -1,0 +1,28 @@
+
+<div class="hc-display-flex hc-flex-column hc-flex-align-center">
+  <figure class="is-responsive is-centered">
+    <img src="../assets/icons/icon-144x144.png">
+  </figure>
+  <h2 class="mat-h2" style="margin: 0 0 1.5rem 0">
+    Digital Concierge
+  </h2>
+</div>
+
+
+<form [formGroup]="Form" (ngSubmit)="onSubmit()">
+
+  <mat-form-field class="example-full-width" appearance="fill">
+    <!--{{'RESERVATION_ID' | translate}}</mat-label>-->
+    <mat-label>Reservation Number</mat-label>
+    <input type="number" formControlName="reservationId" matInput>
+  </mat-form-field>
+  
+  <mat-form-field class="example-full-width" appearance="fill">
+    <!--<mat-label>{{'SURNAME' | translate}}</mat-label>-->
+    <mat-label>Surname</mat-label>
+    <input type="text" formControlName="surname" matInput>
+  </mat-form-field>
+
+  <button [disabled]="!Form.valid" mat-raised-button color="primary" (click)="onSubmit()">{{ 'BUTTONS.LOGIN' | translate }}</button>
+
+</form>

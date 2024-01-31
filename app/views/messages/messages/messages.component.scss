@@ -1,0 +1,70 @@
+:host{
+  form {
+    display: flex;
+  }
+
+  form > .mat-form-field {
+    flex-grow: 1;
+    margin-top: 1rem;
+    + button {
+      margin-top: 1rem;
+      margin-bottom: 1.25rem;
+    }
+  }
+  > div {
+    height: calc(100vh - 190px);
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
+  .messages{
+    background-color: #e8ecf1;
+    overflow-y: auto;
+    flex-basis: 0px;
+    flex-shrink: 0;
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+  }
+  .message{
+    align-self: flex-start;
+    min-width: 255px;
+    width: 50%;
+    margin: 0.5rem;
+    background-color: white;
+    border-radius: 2px;
+    padding: 0.75rem;
+    display: flex;
+    &.mine{
+      background-color: #c1cbd1;
+      align-self: flex-end;
+    }
+  }
+  .messages_scroller{
+    position: relative;
+    z-index: 1;
+    flex: 1 1 0;
+  .messages_inner_scroller {
+      position: absolute;
+      top: 0;
+      z-index: 100;
+      box-sizing: border-box;
+      display: flex;
+      flex-direction: column;
+      width: 100%;
+      height: 100%;
+      overflow-x: hidden;
+      overflow-y: scroll;
+    }
+  }
+  .dark-theme .messages {
+    background-color: #1f1f1f;
+    .message {
+      background-color: #739db7;
+    }
+    .mine{
+      background-color: #676767;
+    }
+  }
+  
+}

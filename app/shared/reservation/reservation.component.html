@@ -1,0 +1,26 @@
+<mat-card>
+  <mat-card-subtitle>{{'RESERVATION_INFOS'| translate}}:</mat-card-subtitle>
+  <mat-card-content>
+    <div class="hc-display-flex">{{'ARRIVE'| translate}} <strong class="hc-ml-auto">{{Data?.arrive | date : 'EEE d MMMM' :'' : Lang | titlecase }}</strong></div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="hc-display-flex">{{'DEPARTURE'| translate}} <strong class="hc-ml-auto">{{Data?.departure | date : 'EEE d MMMM' : '' : Lang | titlecase }}</strong></div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="hc-display-flex">{{'ROOMTYPE'| translate}} <strong class="hc-ml-auto">{{Data?.roomType}}</strong></div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="hc-display-flex">{{'MEALPLAN'| translate}} <strong class="hc-ml-auto">{{Data?.mealPlan}}</strong></div>
+    <mat-divider></mat-divider>
+    <br>
+    <!--<div class="hc-display-flex">{{'RESERVATIONSTATE'| translate}} <strong class="hc-ml-auto">{{Data?.reservationState}}</strong></div>
+    <mat-divider></mat-divider>
+    <br>-->
+    <div class="hc-display-flex">{{'TOTALGUESTSNUMBER'| translate}} <strong class="hc-ml-auto">{{Data?.totalGuestsNumber}}</strong></div>
+    <mat-divider></mat-divider>
+    <br>
+    <div class="hc-display-flex">{{'TOTALSTAYAMOUNT'| translate}} <strong class="hc-ml-auto">{{Data?.totalStayAmount}}</strong></div>
+  </mat-card-content>
+  <!--{{Data?.urlWebCheckin}}-->
+
+</mat-card>

@@ -1,0 +1,6 @@
+<mat-toolbar-row [routerLink]="['/', 'app', 'services']" style="padding-left: 0">
+  <button mat-icon-button> <mat-icon>chevron_left</mat-icon> </button> 
+  <span> {{(Service$ | async)?.shortDescription}} </span>  
+  <span class="hc-line-spacer"></span>
+</mat-toolbar-row>
+<div class="hc-service-container" [innerHTML]="((Service$ | async)?.HTMLContent || '') | sanitizeHTML"></div>

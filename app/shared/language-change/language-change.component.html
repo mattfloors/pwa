@@ -1,0 +1,12 @@
+<mat-form-field appearance="fill" [formGroup]="formGroup">
+  <mat-label> {{'LANGUAGE' | translate}} </mat-label>
+  <mat-select formControlName="language">
+    <!--<mat-select-trigger>
+      {{language.value?.[0] || ''}}
+      <span *ngIf="(language.value?.length || 0) > 1" class="example-additional-selection">
+        (+{{(language.value?.length || 0) - 1}} {{language.value?.length === 2 ? 'other' : 'others'}})
+      </span>
+    </mat-select-trigger>-->
+    <mat-option *ngFor="let l of Data" [value]="l.value">{{ l.name | translate}}</mat-option>
+  </mat-select>
+</mat-form-field>

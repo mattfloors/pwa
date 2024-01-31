@@ -1,0 +1,10 @@
+<mat-list>
+  <ng-container *ngFor="let Service of (Service$ | async)">
+    <mat-list-item [routerLink]="Service.page" class="hc-cursor-pointer"> 
+       {{Service.shortDescription}}
+      <span class="hc-line-spacer"></span>
+      <mat-icon>chevron_right</mat-icon>
+    </mat-list-item>
+    <mat-divider></mat-divider>
+  </ng-container>
+</mat-list>

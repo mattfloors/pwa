@@ -1,0 +1,14 @@
+.grid-list{
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-gap: 1rem;
+}
+
+.hc-order-inner{
+  height: calc(100vh - 180px);
+}
+
+.hc-scrollable{
+  height: calc(100% - 120px);
+  overflow: auto;
+}

@@ -1,0 +1,27 @@
+<mat-toolbar-row [routerLink]="['/', 'app', 'messages']" style="
+  padding: 0;
+">
+  <ng-container>
+    <button mat-icon-button> <mat-icon>chevron_left</mat-icon> </button> 
+    <span> {{(Area$ | async)?.description}} </span>  
+  </ng-container>
+  <span class="hc-line-spacer"></span>
+</mat-toolbar-row>
+<div>
+  <div class="messages">
+    <div class="messages_scroller">
+      <div class="messages_inner_scroller" #ScrollerInner>
+        <span class="hc-vertical-spacer"></span>
+        <app-message class="message" *ngFor="let message of (Messages$ | async)" [Mine]="message?.From == 'GUEST'" [Data]="message"></app-message>
+      </div>
+    </div>
+  </div>
+  <form [formGroup]="Form" (ngSubmit)="onSendMessage()">
+    <mat-form-field class="example-full-width" appearance="fill">
+      <mat-label>{{ 'MESSAGE' | translate }}</mat-label>
+      <!-- (keydown.enter)="$event.preventDefault(); onSendMessage()" -->
+      <textarea formControlName="message" matInput placeholder="..."></textarea>
+    </mat-form-field>
+    <button mat-raised-button color="primary">{{ 'BUTTONS.SEND' | translate }}</button>
+  </form>
+</div>

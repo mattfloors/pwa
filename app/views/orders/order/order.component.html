@@ -1,0 +1,183 @@
+<mat-toolbar-row style="padding: 0;" *ngIf="(PageInfo$ | async) as Data">
+  <a *ngIf="Data?.Description && HasTable" mat-icon-button [routerLink]="['../../']">
+    <mat-icon>arrow_back</mat-icon>
+  </a>
+  <!--<span class="hc-ml-1">
+    <ng-content *ngIf="HasTable; then tableRoom; else serviceRoom;"></ng-content>
+    <ng-template #tableRoom> {{'TABLE' | translate}}: </ng-template>
+    <ng-template #serviceRoom> {{'ROOM' | translate}}: </ng-template>
+    {{Data?.Room}}
+  </span>-->
+  <span class="hc-line-spacer"></span>
+  <span *ngIf="(Total$ | async) as total" class="mat-h2 hc-mx-1" 
+    style="
+      margin: 0;
+      margin-right: 1rem;
+    ">
+    {{total | currency}}
+  </span> 
+  <button [disabled]="(OrderState$ | async)?.Items?.length === 0" mat-raised-button color="primary" (click)="onPreview()">{{'BUTTONS.SEND_ORDER' | translate}}</button>
+</mat-toolbar-row>
+<div class="hc-order-inner" [ngClass]="ComponentClasses$ | async">
+  <ng-container *ngIf="( Data$ | async ) as Data">
+    <!--<ng-content *ngIf="Data?.activable; then order; else empty"></ng-content>-->
+    <ng-content *ngIf="Data?.activable; then order; else order"></ng-content>
+
+    <ng-template #empty>
+      {{'MESSAGES.ROOM_CLOSED' | translate : {value: Data?.code} }}
+      <div *ngIf="Data?.openingTime">
+        <tr *ngFor="let d of Data?.openingTime">
+          <td>{{d.dayOfWeek}}</td>
+          <td>{{d.fromHour}}</td>
+          <td>{{d.toHour}}</td>
+        </tr>
+      </div>
+    </ng-template>
+
+    <ng-template #order>
+      <div class="hc-order-wrapper" fxLayout="row" fxLayout.xs="column" fxFlexFill style="max-height: calc( 100vh - 175px);"> 
+        <div class="hc-order-list" fxFlex.xs="15" fxFlex="50" style="overflow: auto">
+          <ul class="hc-vertical-list" role="menu" *ngIf="(OrderState$ | async) as Order">
+            <pre hidden>{{Order | json}}</pre>
+            
+            <ng-container *ngIf="Order.Items?.length === 0">
+              <div fxLayout="column" class="hc-center-image">
+                <figure class="is-responsive">
+                  <!--<img src="../assets/placeholders/056-drawkit-fast-food-monochrome.svg">-->
+                </figure>
+              </div>
+            </ng-container>
+            <ng-container *ngFor="let item of Order.Items; index as i">
+              <li>
+                <app-order-item *ngIf="!item?.Articles" [Item]="item" [hideCommand]="true" (Change)="onChangeItem(item, $event)" (Delete)="onRemove(i)">
+                  <button *ngIf="CanUseRestaurantWishes$ | async" mat-button (click)="onNote(item, i)">
+                    <mat-icon *ngIf="!item?.Note">chat_bubble_outline</mat-icon>
+                    <mat-icon *ngIf="item?.Note">chat</mat-icon>
+                  </button>
+                  <span (click)="onSelectArticle(item)">
+                    {{item?.Descrizione | titlecase}}
+                  </span>
+                </app-order-item>
+                <app-order-menu 
+                  [hasNote]="(CanUseRestaurantWishes$ | async)"
+                
+                (Note)="onNote($event, i, item)" *ngIf="item?.Articles" [Item]="item" [hideCommand]="true" (Change)="onChangeItem(item, $event)" (Delete)="onRemove(i)">
+                  <span (click)="onSelectArticle(item)">
+                    {{item?.Descrizione | titlecase}}
+                  </span>
+                </app-order-menu>
+              </li>
+              <mat-divider></mat-divider>
+            </ng-container>
+          </ul>
+        </div>
+
+
+        <div class="hc-order-menu" fxFlex="50 noshrink" style="overflow: hidden; position: relative;">
+          <mat-toolbar color="primary">
+            <ng-container *ngIf="(Sink$ | async) as sinkContent">
+              <span>
+                <button *ngIf="sinkContent?.collapsed" mat-icon-button (click)="onCollapse(false)"> <mat-icon>expand_less</mat-icon> </button> 
+                <button *ngIf="!sinkContent?.collapsed" mat-icon-button (click)="onCollapse(true)"> <mat-icon>expand_more</mat-icon> </button> 
+              </span>
+              <span>
+                <button *ngIf="sinkContent?.collapsedList" mat-icon-button (click)="onCollapseList(false)"> <mat-icon>fullscreen_exit</mat-icon> </button> 
+                <button *ngIf="!sinkContent?.collapsedList" mat-icon-button (click)="onCollapseList(true)"> <mat-icon>fullscreen</mat-icon> </button> 
+              </span>
+              <span class="hc-line-spacer"></span>
+              <button mat-icon-button (click)="onSetSearch(!sinkContent?.search)"> <mat-icon>search</mat-icon> </button> 
+              <button mat-icon-button 
+                *ngIf="HasCategories"
+                [matBadgeHidden]="(CategoriesStateSelected$ | async)?.length === 0"
+                [matBadge]="(CategoriesStateSelected$ | async)?.length"
+                matBadgeColor="accent"
+                matBadgePosition="after"
+                matBadgeSize='small'
+                [color]="(CategoriesStateSelected$ | async)?.length ? 'accent' : ''" (click)="onSetFilters(sinkContent.categories)"> <mat-icon>filter_list</mat-icon> </button> 
+            </ng-container>
+          </mat-toolbar>
+
+          <ng-container *ngIf="(Sink$ | async)?.categories">
+            <app-order-categories (Toggle)="toggleCategory($event)" [Categories]="(CategoriesState$ | async) || []"></app-order-categories>
+          </ng-container>
+
+          <ng-container *ngIf="!(Sink$ | async)?.collapsed">
+          <mat-toolbar style="padding: 0;">
+            <button mat-button [matMenuTriggerFor]="menu">{{'BUTTONS.INSERT' | translate}}</button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onMenuChange(1)">{{'BUTTONS.MENU_PIATTI' | translate}}</button>
+              <button mat-menu-item (click)="onMenuChange(2)" *ngIf="HasMenu">{{'BUTTONS.MENU_MENU' | translate}}</button>
+              <button mat-menu-item (click)="onMenuChange(3)" *ngIf="HasFavorites">{{'BUTTONS.MENU_FREQUENTI' | translate}}</button>
+            </mat-menu>
+            <ng-container *ngIf="(Sink$ | async) as sinkContent">
+              
+              <mat-chip-list aria-label="Selection" *ngIf="!sinkContent?.search">
+                <mat-chip (click)="onClearPath(sinkContent.key)" color="accent">{{ GetKeyName(sinkContent.key) | titlecase}}</mat-chip>
+                <mat-chip (click)="onSelectItem(item)" *ngFor="let item of sinkContent.path; index as i">{{item?.Descrizione | titlecase}}</mat-chip>
+              </mat-chip-list>
+
+              <ng-container *ngIf="sinkContent?.search">
+                <form [formGroup]="Form" class="hc-flex-grow">
+                  <mat-form-field class="hc-full-width">
+                    <input formControlName="Search" matInput type="search" appAutofocus>
+                    <button (click)="onSetSearch(false)" mat-icon-button matSuffix><mat-icon >close</mat-icon></button>
+                  </mat-form-field>
+                </form>
+              </ng-container>
+            </ng-container>
+
+          </mat-toolbar>
+
+          <ng-container *ngIf="(ResultState$ | async) as ResultState">
+            <pre hidden> {{ResultState | json}} </pre>
+            <ng-container *ngIf="ResultState?.Layout == 2">
+              <div class="content" fxLayout="row wrap">
+                <div fxFlex.xs="50" fxFlex="33" style="padding: 8px" *ngFor="let item of ResultState?.Data">
+                  <mat-card class="hc-cursor-pointer" (click)="onSelectItem(item)"> {{item?.Descrizione}} </mat-card>
+                </div>
+              </div>
+
+            </ng-container>
+            <ng-container *ngIf="ResultState?.Layout == 1">
+
+              <mat-list class="hc-scrollable" role="menu" *ngIf="ResultState?.Data">
+                <mat-list-item *ngFor="let item of ResultState?.Data">
+                  <app-order-item [Space]="false" [Item]="item" (Change)="onChangeItem(item, $event)">
+                    <button style="padding-left: 0;padding-right: 8px;min-width: 24px;" *ngIf="item?.Articles" mat-button (click)="onMenuInfos(item.Articles)"><mat-icon>info</mat-icon></button>
+                    <button style="padding-left: 0;padding-right: 8px;min-width: 24px;" *ngIf="item?.Informazioni" mat-button (click)="onInfos(item)"><mat-icon>info</mat-icon></button>
+                    {{item?.Descrizione}}
+                    <span class="hc-line-spacer"></span>
+                    {{item.Prezzo | currency}}
+                  </app-order-item>
+                  
+                </mat-list-item>
+              </mat-list>
+
+            </ng-container>
+
+          </ng-container>
+          
+        </ng-container>
+        </div>
+
+        <ng-container *ngIf="(Sink$ | async) as sinkContent">
+          <mat-toolbar *ngIf="sinkContent?.collapsed" color="primary">
+            <span>
+              <button *ngIf="sinkContent?.collapsed" mat-icon-button (click)="onCollapse(false)"> <mat-icon>expand_less</mat-icon> </button> 
+              <button *ngIf="!sinkContent?.collapsed" mat-icon-button (click)="onCollapse(true)"> <mat-icon>expand_more</mat-icon> </button> 
+            </span>
+            <span>
+              <button *ngIf="sinkContent?.collapsedList" mat-icon-button (click)="onCollapseList(false)"> <mat-icon>fullscreen_exit</mat-icon> </button> 
+              <button *ngIf="!sinkContent?.collapsedList" mat-icon-button (click)="onCollapseList(true)"> <mat-icon>fullscreen</mat-icon> </button> 
+            </span>
+            <span class="hc-line-spacer"></span>
+            <button mat-icon-button (click)="onCollapse(false); onSetSearch(true)"> <mat-icon>search</mat-icon> </button> 
+            <button mat-icon-button [color]="(CategoriesStateSelected$ | async)?.length ? 'accent' : ''" (click)="onCollapse(false); onSetFilters(sinkContent.categories)"> <mat-icon>filter_list</mat-icon> </button> 
+          </mat-toolbar>
+        </ng-container>
+
+      </div>
+    </ng-template>
+
+  </ng-container>
+</div>

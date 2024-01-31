@@ -1,0 +1,36 @@
+
+
+<ng-container *ngFor="let m of (Meteo$ | async); index as i">
+
+  <ng-content *ngIf="i > 0; then other; else main"></ng-content>
+
+  <ng-template #main>
+    <mat-card>
+      <div class="hc-display-flex hc-flex-column hc-flex-align-center">
+        <img [src]="m.imageUrl">
+        {{ m.date | date: 'EEE d MMMM' : '': Lang | titlecase }}
+        <h3 class="mat-title">{{ m.description | titlecase }}</h3>
+        <p class="mat-subheading-2">{{m.tMin}}c&deg; / {{m.tMax}}c&deg;</p>
+      </div>
+    </mat-card>
+    <br>
+  </ng-template>
+  
+  <ng-template #other>
+    <mat-card>
+      <div class="hc-display-flex hc-flex-align-center mat-caption">
+        <img class="hc-mr-1" [src]="m.imageUrl">
+        <span>
+          {{ m.date | date: 'EEE d MMMM' : '': Lang | titlecase }}<br>
+          <strong>
+            {{ m.description | titlecase }}
+          </strong>
+        </span>
+        <span class="hc-ml-auto">{{m.tMin}}c&deg; / {{m.tMax}}c&deg;</span>
+      </div>
+      <!--<mat-divider></mat-divider>-->
+    </mat-card>
+    <br>
+  </ng-template>
+
+</ng-container>

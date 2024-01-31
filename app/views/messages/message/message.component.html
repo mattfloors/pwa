@@ -1,0 +1,7 @@
+<div class="message" [ngClass]="{'mine': Mine}">
+  <strong *ngIf="Data.MessageDateTime">
+    <!--{{Data.MessageDateTime | date}}
+    -->
+  </strong>
+  <p [innerHTML]="Data.MessageText | parseMessage"></p>
+</div>

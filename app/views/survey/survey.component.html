@@ -1,0 +1,21 @@
+<div *ngIf="(SurveyDone$ | async) as response" style="padding-bottom: 8px;" fxLayout="row" fxLayout.xs="column" fxFlexFill fxLayoutAlign="center none" fxLayoutGap="16px">
+  <p class="mat-body-2" >
+    {{response}}
+  </p>
+</div>
+
+<ul class="hc-survey-list">
+  <li *ngFor="let question of Questions; index as i">
+    <app-survey-item [Question]="question" (CommentChange)="onSetComment($event, i)" (ValueChange)="onValueChange($event, i)">
+      <h2 class="mat-h3" *ngIf="question.title">{{question.title}}</h2>
+      <p class="mat-body" *ngIf="question.question">
+        {{question.question}} <sup *ngIf="question.required">*</sup>
+      </p>
+    </app-survey-item>
+    <mat-divider></mat-divider>
+  </li>
+</ul>
+
+<div class="hc-display-flex hc-justify-center" style="padding-bottom: 4rem;">
+  <button [disabled]="!CanSend" mat-raised-button color="primary" (click)="onSend()">{{'BUTTONS.SUBMIT' | translate}}</button>
+</div>

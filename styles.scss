@@ -1,0 +1,223 @@
+
+/* You can add global styles to this file, and also import other style files */
+
+html, body { height: 100%; }
+body { margin: 0; font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif, "Helvetica Neue", sans-serif; }
+
+.is-responsive{
+  max-width: 100%;
+  width: auto;
+  z-index: 1;
+  img{
+    max-width: 100%;
+  }
+}
+.is-centered{
+  text-align: center;
+}
+.hc-no-link-appearance {
+  text-decoration: none;
+  color: inherit;
+}
+.hc-line-spacer {
+  flex: 1 1 auto
+}
+.hc-vertical-spacer {
+  flex: 1 1 0
+}
+.hc-display-flex {
+  display: flex;
+}
+
+.hc-flex-align-center{
+  align-items: center;
+}
+.ch-flex-space-between{
+  justify-content: space-between;
+}
+
+.hc-justify-center{
+  justify-content: center;
+}
+.hc-space-between{
+  justify-content: space-between;
+}
+
+.hc-flex-column {
+  flex-direction: column;
+}
+.hc-flex-grow {
+  flex-grow: 1;
+}
+.hc-full-width{
+  width: 100%;
+}
+.app-sidenav{
+  min-width: 300px;
+}
+.app-content {
+  min-height: calc(100vh - 116px);
+}
+
+.app-wrapper{
+  padding: 0 .5rem;
+}
+.hc-ml-auto{
+  margin-left: auto;
+}
+.hc-ml-1 { margin-left: .5rem; }
+.hc-mt-auto{
+  margin-top: auto;
+}
+.hc-m-1{
+  margin: .25rem;
+}
+
+.hc-mt-1{
+  margin-top: .25rem;
+}
+
+.hc-my-1{
+  margin-top: .25rem;
+  margin-bottom: .25rem;
+}
+
+.hc-mx-1{
+  margin-left: .25rem;
+  margin-right: .25rem;
+}
+
+
+.hc-m-2{
+  margin: .5rem;
+}
+
+.hc-mt-2{
+  margin-top: .5rem;
+}
+
+.hc-my-2{
+  margin-top: .5rem;
+  margin-bottom: .5rem;
+}
+
+.hc-mr-1{
+  margin-right: 1rem;
+}
+
+
+.mt-2{
+  margin-top: 1rem;
+}
+
+.hc-py-2{
+  padding-top: .5rem;
+  padding-bottom: .5rem;
+}
+
+.hc-survey-list{
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  & > li {
+    padding: 1rem 0;
+  }
+}
+
+.hc-cursor-pointer {
+  cursor: pointer;
+}
+
+/** refactoring mine {
+  mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color.mine {
+  font-size: 42px;
+  width: 42px;
+  height: 42px;
+  line-height: 1;
+}
+*/
+
+mat-icon.mat-icon.notranslate.material-icons.mat-icon-no-color.mine {
+  font-size: 42px;
+  width: 42px;
+  height: 42px;
+  line-height: 1;
+}
+
+.hc-center-image {
+  width: 100%;
+  max-width: 50%;
+  margin: 0 auto;
+  text-align: center;
+}
+.hc-order-list{
+  background-color: whitesmoke;
+}
+.hc-order-inner{
+  .mat-list-item-content {
+    padding-left: 0;
+  }
+  &.is-fullscreen {
+    .hc-order-list{
+      display: none;
+    }
+  }
+  &.is-collapsed {
+    .hc-order-menu{
+      display: none;
+    }
+    .hc-order-list{
+      max-height: calc(50% - -210px) !important;
+    }
+  }
+}
+
+.mat-card.hc-selected{
+  background-color: #fafafa;
+  color: var(--color-accent-A400);
+}
+
+.hc-indented{
+  padding-left: 24px;
+  flex-direction: column;
+  align-items: flex-start !important;
+}
+
+.hc-vertical-list {
+  padding: 0;
+  margin: 0;
+  list-style-type: none;
+}
+
+.hc-message-error{
+  background: #ffc0c0;
+  color: #7c2626;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-size: 14px;
+  border-radius: 3px;
+  border-color: #390a0a;
+}
+
+.dark-theme {
+
+  .messages {
+    background-color: #1f1f1f !important;
+    .message {
+      background-color: #739db7 !important;
+    }
+    .mine{
+      background-color: #676767 !important;
+    }
+  }
+
+  .hc-order-list{
+    background-color: #212121 !important;
+  }
+  app-order-categories{
+    background-color: #212121 !important;
+  }
+  .mat-card.hc-selected {
+    color: var(--color-accent-A400) !important;
+  }
+}
